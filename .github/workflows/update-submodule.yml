@@ -1,0 +1,23 @@
+name: Update Submodule
+on:
+  repository_dispatch:
+    types: [submodule-updated]
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PARENT_REPO_TOKEN }}
+          ref: Staaging
+
+      - name: Update submodule to latest
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git config --global url."https://x-access-token:${{ secrets.PARENT_REPO_TOKEN }}@github.com/".insteadOf "git@github.com:"
+          git submodule update --init --remote rx-pages
+          git add src/pages
+          git diff --cached --quiet || git commit -m "chore: update pages"
+          git push
