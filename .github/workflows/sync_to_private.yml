@@ -14,10 +14,17 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Push to Private Repo
-        env:
-          MY_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
-        run: |
-          REMOTE_REPO="https://x-access-token:${MY_TOKEN}@github.com/sorexq/rx-pages.git"
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: unnecessary
+          if_key_exists: replace
 
+      - name: Add GitHub to Known Hosts
+        run: ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+      - name: Push to Private Repo
+        run: |
+          REMOTE_REPO="git@github.com:sorexq/rx-pages.git"
           git push --force "$REMOTE_REPO" HEAD:master
