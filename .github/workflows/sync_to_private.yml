@@ -1,0 +1,21 @@
+name: Sync to Private Repo
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Public Repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push to Private Repo
+        run: |
+          REMOTE_REPO="https://${{ secrets.MY_GITHUB_TOKEN }}@github.com/sorex/rx-pages.git
+
+          git push --force "$REMOTE_REPO" main
