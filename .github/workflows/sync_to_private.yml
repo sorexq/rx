@@ -13,15 +13,19 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
       - name: Push to Private Repo
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
+          SSH_PRIVATE_KEY: ${{ secrets.ID_RX_PAGES }}
         run: |
           mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+
+          (umask 077; echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa)
+
+          chmod 600 ~/.ssh/id_rsa
 
           ssh-keyscan github.com >> ~/.ssh/known_hosts
 
           REMOTE_REPO="git@github.com:sorexq/rx-pages.git"
+
+          GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" \
           git push --force "$REMOTE_REPO" HEAD:master
