@@ -16,6 +16,6 @@ jobs:
 
       - name: Push to Private Repo
         run: |
-          REMOTE_REPO="https://${{ secrets.MY_GITHUB_TOKEN }}@github.com/sorex/rx-pages.git
+          REMOTE_REPO="https://${{ secrets.MY_GITHUB_TOKEN }}@github.com/sorex/rx-pages.git"
 
           git push --force "$REMOTE_REPO" main
