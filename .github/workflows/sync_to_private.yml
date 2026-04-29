@@ -15,7 +15,9 @@ jobs:
           fetch-depth: 0
 
       - name: Push to Private Repo
+        env:
+          MY_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
         run: |
-          REMOTE_REPO="https://${{ secrets.MY_GITHUB_TOKEN }}@github.com/sorexq/rx-pages.git"
+          REMOTE_REPO="https://x-access-token:${MY_TOKEN}@github.com/sorexq/rx-pages.git"
 
-          git push --force "$REMOTE_REPO" master
+          git push --force "$REMOTE_REPO" HEAD:master
