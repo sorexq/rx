@@ -16,7 +16,7 @@ jobs:
 
       - name: Push to Private Repo
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.ID_RX_PAGES }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
         run: |
           mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
