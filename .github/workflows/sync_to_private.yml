@@ -18,4 +18,4 @@ jobs:
         run: |
           REMOTE_REPO="https://${{ secrets.MY_GITHUB_TOKEN }}@github.com/sorexq/rx-pages.git"
 
-          git push --force "$REMOTE_REPO" main
+          git push --force "$REMOTE_REPO" master
